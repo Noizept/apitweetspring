@@ -37,18 +37,24 @@ public class AnimeNewsScheduler {
         * date + time exactly, for this API since its simple and without many tweets I left it like this
         */
 
+        // Gets animeObjects Lists from the external api
         List<AnimeNew> animeObjects = AnimeNewsCrawlerApi.getAnimeNews();
         AnimeNew lastTweet;
+
+        //get last tweet from DB
         try{
             lastTweet=animeNewsRepo.getLastTweet();
         }catch(EmptyResultDataAccessException e){
             lastTweet=null;
         }
-        AnimeNew finalLastTweet = lastTweet;
+
         List<AnimeNew> myFinalList;
         if (lastTweet == null) {
             myFinalList=animeObjects;
         } else {
+            // Cant use lasttweet on lambda, complains it must be final or semi final
+            // created this finalLastTweet then
+            AnimeNew finalLastTweet = lastTweet;
             myFinalList = animeObjects.stream()
                     .filter(tweet -> tweet.getPubDate().compareTo(finalLastTweet.getPubDate()) > 0 || tweet.getPubDate().compareTo(finalLastTweet.getPubDate()) == 0)
                     .collect(Collectors.toList());
