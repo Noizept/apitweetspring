@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,6 @@ public class AnimeNewsScheduler {
 
     /**
      * Schedule/Cron job that updates database tweets
-     * @throws IOException
      */
     @Scheduled(fixedRate = 600000)
     public void UpdateDatabase() throws IOException {
@@ -31,7 +31,8 @@ public class AnimeNewsScheduler {
         * Some kind of UPSERT/MERGE but with the jdbc driver and H2 i couldn't find something for this
         * So what i did was...
         * Get the last record inserted from the DB and then filter the new array from the external API
-        *
+        * Reverse the Array in order to have it AScending dates, since the API gives it descending
+        * I would prefer my IDS increasing with the Date
         * NOTE: There might be a bug with inserting duplicate record if something was introduced at the same
         * date + time exactly, for this API since its simple and without many tweets I left it like this
         */
@@ -51,7 +52,9 @@ public class AnimeNewsScheduler {
             myFinalList = animeObjects.stream()
                     .filter(tweet -> tweet.getPubDate().compareTo(finalLastTweet.getPubDate()) > 0 || tweet.getPubDate().compareTo(finalLastTweet.getPubDate()) == 0)
                     .collect(Collectors.toList());
+
         }
+        Collections.sort(myFinalList);
         animeNewsRepo.saveAll(myFinalList);
     }
 }

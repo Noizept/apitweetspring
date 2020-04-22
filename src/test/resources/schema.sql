@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS ANIMETWEET;
+DROP TABLE IF EXISTS USERS;
+
 
 CREATE TABLE ANIMETWEET(
       id INT AUTO_INCREMENT  PRIMARY KEY,
@@ -8,6 +10,12 @@ CREATE TABLE ANIMETWEET(
       description VARCHAR(4000) NOT NULL,
       pubDate TIMESTAMP NOT NULL,
       createdDate TIMESTAMP NOT NULL DEFAULT  CURRENT_TIMESTAMP,
-       category varchar(30)
-
+      category varchar(30)
 );
+
+CREATE TABLE USERS(
+      id INT AUTO_INCREMENT  PRIMARY KEY,
+      username VARCHAR(50) NOT NULL unique,
+      password VARCHAR(60) NOT NULL,
+      fullname VARCHAR(100)
+)

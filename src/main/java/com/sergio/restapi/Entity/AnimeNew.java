@@ -15,7 +15,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimeNew {
+public class AnimeNew implements  Comparable<AnimeNew>{
 
     private Integer id;
     @NonNull private  String title;
@@ -45,5 +45,14 @@ public class AnimeNew {
                 ", category='" + category + '\'' +
                 ", createdDate=" + createdDate +
                 '}';
+    }
+
+
+
+    @Override
+    public int compareTo(AnimeNew animeToCompare) {
+        Date compareDate= animeToCompare.getPubDate();
+        /* For Ascending order*/
+        return this.pubDate.compareTo(compareDate);
     }
 }

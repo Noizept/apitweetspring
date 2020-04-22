@@ -26,6 +26,11 @@ public class IAnimeNewServiceImpl implements IAnimeNewService {
     @Override
     public List<Tweet> getAll() {
         return Arrays.asList(modelMapper.map(animeNewsRepo.getAll(), Tweet[].class));
+    }
+
+    @Override
+    public List<Tweet> getLatest(Integer limit) {
+        return Arrays.asList(modelMapper.map(animeNewsRepo.getLatest(limit), Tweet[].class));
 
     }
 }

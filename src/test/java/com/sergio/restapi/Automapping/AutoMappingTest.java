@@ -1,7 +1,9 @@
 package com.sergio.restapi.Automapping;
 
 import com.sergio.restapi.DTO.Tweet;
+import com.sergio.restapi.DTO.UserDTO;
 import com.sergio.restapi.Entity.AnimeNew;
+import com.sergio.restapi.Entity.User;
 import com.sergio.restapi.RestapiApplication;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,18 +26,23 @@ public class AutoMappingTest {
     private ModelMapper modelMapper;
 
     @Test
-    public void EntityAndDTOShouldMatch(){
+    public void TweetAndAnimeShouldMatch(){
         Tweet tweet = modelMapper.map(animeNew,Tweet.class);
         assertEquals(tweet.getAnimeUrl(),animeNew.getGuid());
         assertEquals(tweet.getNewUrl(),animeNew.getLink());
         assertEquals(tweet.getCategory(),animeNew.getCategory());
         assertEquals(tweet.getId(),animeNew.getId());
         assertEquals(tweet.getPublished_at(),animeNew.getPubDate());
-
-
-
     }
 
+    @Test
+    public void UserAndUSerDTOMap(){
+        User user = new User("sergio","sergio","Sergio Viula");
+        UserDTO userDTO =modelMapper.map(user,UserDTO.class);
+        assertEquals(user.getFullName(),userDTO.getFullName());
+        assertEquals(user.getUserName(),userDTO.getUserName());
+
+    }
 
 
     @BeforeAll
